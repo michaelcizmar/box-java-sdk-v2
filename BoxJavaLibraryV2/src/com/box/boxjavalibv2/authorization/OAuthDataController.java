@@ -157,6 +157,10 @@ public class OAuthDataController implements IAuthDataController {
      * @return the refreshFailException
      */
     public Exception getRefreshFailException() {
+        if (refreshFailException == null){
+            return new Exception("mOauthToken " + mOAuthToken.getRefreshToken() + " *  not set");
+        }
+        
         return refreshFailException;
     }
 
@@ -277,7 +281,8 @@ public class OAuthDataController implements IAuthDataController {
 
         }
         catch (Exception e) {
-            setRefreshFail(e);
+           
+            setRefreshFail( new Exception("mOauthToken " + mOAuthToken.getRefreshToken() + " *  "+ e.getMessage(),e));
             throw new AuthFatalFailureException(getRefreshFailException());
         }
         finally {
