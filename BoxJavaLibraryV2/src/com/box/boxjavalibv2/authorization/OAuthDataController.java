@@ -11,6 +11,7 @@ import com.box.restclientv2.exceptions.BoxRestException;
 /**
  * This is the data controller for OAuth, it handles token auto refresh.
  */
+//TODO remove refresh debugging switch to another branch of sdk without this debugging.
 public class OAuthDataController implements IAuthDataController {
 
     public static enum OAuthTokenState {
@@ -157,10 +158,6 @@ public class OAuthDataController implements IAuthDataController {
      * @return the refreshFailException
      */
     public Exception getRefreshFailException() {
-        if (refreshFailException == null){
-            return new Exception("mOauthToken " + mOAuthToken.getRefreshToken() + " *  not set");
-        }
-        
         return refreshFailException;
     }
 
@@ -200,7 +197,19 @@ public class OAuthDataController implements IAuthDataController {
                 num++;
             }
         }
-        throw new AuthFatalFailureException(getRefreshFailException());
+
+        throw createAuthFatalFailureException("getAuthData ");
+    }
+
+    private String getErrorTag(final String tag) {
+        if (getRefreshFailException() != null) {
+            return tag + "* " + mOAuthToken.getRefreshToken() + " * " + getRefreshFailException().getMessage();
+        }
+        return tag + "* " + mOAuthToken.getRefreshToken();
+    }
+
+    private AuthFatalFailureException createAuthFatalFailureException(final String tag) {
+        return new AuthFatalFailureException(new Exception(getErrorTag(tag), getRefreshFailException()));
     }
 
     /**
@@ -217,7 +226,7 @@ public class OAuthDataController implements IAuthDataController {
         else {
             if (getTokenState() == OAuthTokenState.FAIL || !mAutoRefresh) {
                 setTokenState(OAuthTokenState.FAIL);
-                throw new AuthFatalFailureException(getRefreshFailException());
+                throw createAuthFatalFailureException("refresh ");
             }
             else {
                 doRefresh();
@@ -267,6 +276,7 @@ public class OAuthDataController implements IAuthDataController {
      *             exception
      */
     private void doRefresh() throws AuthFatalFailureException {
+        Thread.dumpStack();
         setTokenState(OAuthTokenState.REFRESHING);
         try {
             BoxOAuthRequestObject requestObj = BoxOAuthRequestObject.refreshOAuthRequestObject(mOAuthToken.getRefreshToken(), mClientId, mClientSecret);
@@ -281,9 +291,8 @@ public class OAuthDataController implements IAuthDataController {
 
         }
         catch (Exception e) {
-           
-            setRefreshFail( new Exception("mOauthToken " + mOAuthToken.getRefreshToken() + " *  "+ e.getMessage(),e));
-            throw new AuthFatalFailureException(getRefreshFailException());
+            setRefreshFail(e);
+            throw createAuthFatalFailureException("doRefresh ");
         }
         finally {
             unlock();
