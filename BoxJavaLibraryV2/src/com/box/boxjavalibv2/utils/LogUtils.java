@@ -2,7 +2,7 @@ package com.box.boxjavalibv2.utils;
 
 public final class LogUtils {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     /**
      * Private constructor so the class cannot be instantiated.
