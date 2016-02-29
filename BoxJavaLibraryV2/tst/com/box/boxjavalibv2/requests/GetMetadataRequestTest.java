@@ -13,7 +13,7 @@ public class GetMetadataRequestTest extends RequestTestBase {
 
     @Test
     public void testUri() {
-        Assert.assertEquals("/metadata/123/metadata/global/properties", GetFileMetadataRequest.getUri("123"));
+        Assert.assertEquals("/files/123/metadata/properties", GetFileMetadataRequest.getUri("123"));
     }
 
     @Test

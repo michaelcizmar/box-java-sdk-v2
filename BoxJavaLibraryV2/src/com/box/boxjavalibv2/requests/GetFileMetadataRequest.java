@@ -9,7 +9,7 @@ import com.box.restclientv2.requestsbase.DefaultBoxRequest;
 
 public class GetFileMetadataRequest extends DefaultBoxRequest{
   
-  public static final String URI = "/files/%s/metadata/global/properties";
+  public static final String URI = "/files/%s/metadata/properties";
   
   /**
    * Constructor.
