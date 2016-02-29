@@ -10,6 +10,7 @@ import java.util.List;
 import com.box.boxjavalibv2.dao.BoxCollection;
 import com.box.boxjavalibv2.dao.BoxFile;
 import com.box.boxjavalibv2.dao.BoxFileVersion;
+import com.box.boxjavalibv2.dao.BoxMetadata;
 import com.box.boxjavalibv2.dao.BoxPreview;
 import com.box.boxjavalibv2.dao.BoxThumbnail;
 import com.box.boxjavalibv2.exceptions.AuthFatalFailureException;
@@ -302,6 +303,24 @@ public interface IBoxFilesManager extends IBoxResourceManager {
      *             See {@link com.box.boxjavalibv2.exceptions.AuthFatalFailureException} for more info.
      */
     public BoxCollection getFileComments(String fileId, BoxDefaultRequestObject requestObject) throws BoxRestException, BoxServerException,
+        AuthFatalFailureException;
+    
+    /**
+     * Get metadata of a file.
+     *
+     * @param fileId
+     *            id of the file
+     * @param requestObject
+     *            object that goes into request.
+     * @return collection of comments
+     * @throws BoxRestException
+     *             See {@link com.box.restclientv2.exceptions.BoxRestException} for more info.
+     * @throws BoxServerException
+     *             See {@link com.box.boxjavalibv2.exceptions.BoxServerException} for more info.
+     * @throws AuthFatalFailureException
+     *             See {@link com.box.boxjavalibv2.exceptions.AuthFatalFailureException} for more info.
+     */
+    public BoxMetadata getFileMetadata(String fileId, BoxDefaultRequestObject requestObject) throws BoxRestException, BoxServerException,
         AuthFatalFailureException;
 
 }

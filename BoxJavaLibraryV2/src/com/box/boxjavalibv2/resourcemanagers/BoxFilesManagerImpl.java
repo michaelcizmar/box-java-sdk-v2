@@ -10,8 +10,10 @@ import java.util.List;
 
 import com.box.boxjavalibv2.IBoxConfig;
 import com.box.boxjavalibv2.dao.BoxCollection;
+import com.box.boxjavalibv2.dao.BoxComment;
 import com.box.boxjavalibv2.dao.BoxFile;
 import com.box.boxjavalibv2.dao.BoxFileVersion;
+import com.box.boxjavalibv2.dao.BoxMetadata;
 import com.box.boxjavalibv2.dao.BoxPreview;
 import com.box.boxjavalibv2.dao.BoxResourceType;
 import com.box.boxjavalibv2.dao.BoxServerError;
@@ -27,7 +29,9 @@ import com.box.boxjavalibv2.filetransfer.IFileTransferListener;
 import com.box.boxjavalibv2.jsonparsing.IBoxJSONParser;
 import com.box.boxjavalibv2.jsonparsing.IBoxResourceHub;
 import com.box.boxjavalibv2.requests.DeleteFileRequest;
+import com.box.boxjavalibv2.requests.GetCommentRequest;
 import com.box.boxjavalibv2.requests.GetFileCommentsRequest;
+import com.box.boxjavalibv2.requests.GetFileMetadataRequest;
 import com.box.boxjavalibv2.requests.GetFileVersionsRequest;
 import com.box.boxjavalibv2.requests.GetPreviewRequest;
 import com.box.boxjavalibv2.requests.ThumbnailRequest;
@@ -233,5 +237,13 @@ public class BoxFilesManagerImpl extends BoxItemsManagerImpl implements IBoxFile
             }
         }
         return files;
+    }
+
+    @Override
+    public BoxMetadata getFileMetadata(String fileId,
+        BoxDefaultRequestObject requestObject) throws BoxRestException,
+        BoxServerException, AuthFatalFailureException {
+      GetFileMetadataRequest request = new GetFileMetadataRequest(getConfig(), getJSONParser(), fileId, requestObject);
+      return (BoxMetadata) getResponseAndParseAndTryCast(request, BoxResourceType.METADATA, getJSONParser());
     }
 }

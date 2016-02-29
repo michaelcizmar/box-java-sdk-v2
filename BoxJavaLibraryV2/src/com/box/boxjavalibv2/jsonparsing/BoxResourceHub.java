@@ -15,6 +15,7 @@ import com.box.boxjavalibv2.dao.BoxGroup;
 import com.box.boxjavalibv2.dao.BoxGroupMembership;
 import com.box.boxjavalibv2.dao.BoxItem;
 import com.box.boxjavalibv2.dao.BoxLock;
+import com.box.boxjavalibv2.dao.BoxMetadata;
 import com.box.boxjavalibv2.dao.BoxOAuthToken;
 import com.box.boxjavalibv2.dao.BoxItemPermissions;
 import com.box.boxjavalibv2.dao.BoxPreview;
@@ -94,6 +95,8 @@ public class BoxResourceHub extends BaseBoxResourceHub {
                 return BoxItemPermissions.class;
             case ERROR:
                 return BoxServerError.class;
+            case METADATA:
+                return BoxMetadata.class;
             case ITEMS:
             case FILES:
             case USERS:

@@ -36,6 +36,8 @@ public enum BoxResourceType implements IBoxType {
     COMMENT,
     /** A plural format of {@link #COMMENT}. */
     COMMENTS,
+    /** Metadata. */
+    METADATA,
     /** A version of a file. */
     FILE_VERSION,
     /** A plural format of {@link #FILE_VERSION}. */
